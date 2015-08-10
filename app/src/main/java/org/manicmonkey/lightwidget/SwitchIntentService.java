@@ -11,7 +11,13 @@ import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 
+import org.manicmonkey.lightwidget.backend.Switch;
+import org.manicmonkey.lightwidget.backend.SwitchAction;
+import org.manicmonkey.lightwidget.backend.SwitchService;
+
 import java.io.IOException;
+
+import retrofit.RestAdapter;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -93,19 +99,14 @@ public class SwitchIntentService extends IntentService {
     }
 
     private void performSwitchRequest(String group, String switchNumber, boolean switchOn) {
-        final OkHttpClient client = new OkHttpClient();
-        final Request request = new Request.Builder()
-                .url(new HttpUrl.Builder()
-                        .scheme("http")
-                        .host("192.168.1.198")
-                        .port(8000)
-                        .addPathSegment(switchOn ? "on" : "off")
-                        .addQueryParameter("group", group)
-                        .addQueryParameter("switch", switchNumber).build()).build();
-        try {
-            client.newCall(request).execute();
-        } catch (IOException e) {
-            Log.e(getClass().getSimpleName(), "Error performing switch network request", e);
+        final RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint("http://192.168.1.198:3000")
+                .build();
+
+        final SwitchService switchService = restAdapter.create(SwitchService.class);
+        for (Switch aSwitch : switchService.get()) {
+            System.out.println("aSwitch = " + aSwitch);
+            switchService.execute(aSwitch.getName(), new SwitchAction(switchOn));
         }
     }
 
