@@ -3,6 +3,10 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
+        android:fragment="org.manicmonkey.lightwidget.SettingsActivity$ServerPreferenceFragment"
+        android:title="@string/pref_header_server" />
+
+    <header
         android:fragment="org.manicmonkey.lightwidget.SettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general" />
 

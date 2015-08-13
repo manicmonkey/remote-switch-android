@@ -63,7 +63,8 @@ public class SettingsActivity extends PreferenceActivity {
 
     @Override
     protected boolean isValidFragment (String fragmentName) {
-        return GeneralPreferenceFragment.class.getName().equals(fragmentName)
+        return ServerPreferenceFragment.class.getName().equals(fragmentName)
+                || GeneralPreferenceFragment.class.getName().equals(fragmentName)
                 || NotificationPreferenceFragment.class.getName().equals(fragmentName)
                 || DataSyncPreferenceFragment.class.getName().equals(fragmentName);
     }
@@ -88,28 +89,6 @@ public class SettingsActivity extends PreferenceActivity {
                         index >= 0
                                 ? listPreference.getEntries()[index]
                                 : null);
-
-            } else if (preference instanceof RingtonePreference) {
-                // For ringtone preferences, look up the correct display value
-                // using RingtoneManager.
-                if (TextUtils.isEmpty(stringValue)) {
-                    // Empty values correspond to 'silent' (no ringtone).
-                    preference.setSummary(R.string.pref_ringtone_silent);
-
-                } else {
-                    Ringtone ringtone = RingtoneManager.getRingtone(
-                            preference.getContext(), Uri.parse(stringValue));
-
-                    if (ringtone == null) {
-                        // Clear the summary if there was a lookup error.
-                        preference.setSummary(null);
-                    } else {
-                        // Set the summary to reflect the new ringtone display
-                        // name.
-                        String name = ringtone.getTitle(preference.getContext());
-                        preference.setSummary(name);
-                    }
-                }
 
             } else {
                 // For all other preferences, set the summary to the value's
@@ -139,6 +118,16 @@ public class SettingsActivity extends PreferenceActivity {
                 PreferenceManager
                         .getDefaultSharedPreferences(preference.getContext())
                         .getString(preference.getKey(), ""));
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class ServerPreferenceFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_general);
+            bindPreferenceSummaryToValue(findPreference("server_address"));
+        }
     }
 
     /**

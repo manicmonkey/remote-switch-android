@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">LightSwitch</string>
+    <string name="app_name">Light Switch</string>
     <string name="appwidget_text">On</string>
     <string name="configure">Configure</string>
+    <string name="pref_title_server_address">Server address</string>
     <string name="add_widget">Add widget</string>
     <string name="switched_on">Switched on</string>
     <string name="switched_off">Switched off</string>

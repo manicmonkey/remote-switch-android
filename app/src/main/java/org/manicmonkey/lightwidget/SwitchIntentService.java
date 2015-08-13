@@ -1,21 +1,17 @@
 package org.manicmonkey.lightwidget;
 
 import android.app.IntentService;
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
 
 import org.manicmonkey.lightwidget.backend.Switch;
 import org.manicmonkey.lightwidget.backend.SwitchAction;
 import org.manicmonkey.lightwidget.backend.SwitchService;
-
-import java.io.IOException;
 
 import retrofit.RestAdapter;
 
@@ -99,8 +95,11 @@ public class SwitchIntentService extends IntentService {
     }
 
     private void performSwitchRequest(String group, String switchNumber, boolean switchOn) {
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final String serverAddress = sharedPreferences.getString("server_address", null);
+
         final RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("http://192.168.1.198:3000")
+                .setEndpoint(serverAddress)
                 .build();
 
         final SwitchService switchService = restAdapter.create(SwitchService.class);
