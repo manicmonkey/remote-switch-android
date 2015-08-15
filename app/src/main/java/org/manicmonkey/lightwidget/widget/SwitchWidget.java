@@ -1,4 +1,4 @@
-package org.manicmonkey.lightwidget;
+package org.manicmonkey.lightwidget.widget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -6,6 +6,9 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
+
+import org.manicmonkey.lightwidget.R;
+import org.manicmonkey.lightwidget.SwitchIntentService;
 
 /**
  * Implementation of App Widget functionality.
@@ -25,7 +28,9 @@ public class SwitchWidget extends AppWidgetProvider {
     public void onDeleted(Context context, int[] appWidgetIds) {
         // When the user deletes the widget, delete the preference associated with it.
         for (int appWidgetId : appWidgetIds) {
-            SwitchWidgetConfigureActivity.deleteSwitchPref(context, appWidgetId);
+            SwitchWidgetConfiguration switchWidgetConfiguration = new SwitchWidgetConfiguration(context, appWidgetId);
+            switchWidgetConfiguration.delete(SwitchWidgetConfiguration.PREF_NAME);
+            switchWidgetConfiguration.delete(SwitchWidgetConfiguration.PREF_SWITCH_ON);
         }
     }
 
@@ -41,7 +46,9 @@ public class SwitchWidget extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
 
-        boolean switchOn = SwitchWidgetConfigureActivity.loadSwitchPref(context, appWidgetId);
+        SwitchWidgetConfiguration switchWidgetConfiguration = new SwitchWidgetConfiguration(context, appWidgetId);
+        String name = switchWidgetConfiguration.getString(SwitchWidgetConfiguration.PREF_NAME);
+        boolean switchOn = switchWidgetConfiguration.getBoolean(SwitchWidgetConfiguration.PREF_SWITCH_ON);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.switch_widget);
         Intent intent = new Intent(context, SwitchIntentService.class);
@@ -52,8 +59,7 @@ public class SwitchWidget extends AppWidgetProvider {
             views.setImageViewResource(R.id.appwidget_button, R.drawable.pocket_lantern_gray_100);
             intent.setAction(SwitchIntentService.ACTION_SWITCH_OFF);
         }
-        intent.putExtra(SwitchIntentService.EXTRA_GROUP, "11111");
-        intent.putExtra(SwitchIntentService.EXTRA_SWITCH, "1");
+        intent.putExtra(SwitchIntentService.EXTRA_SWITCH, name);
         PendingIntent pendingIntent = PendingIntent.getService(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.appwidget_button, pendingIntent);
 
