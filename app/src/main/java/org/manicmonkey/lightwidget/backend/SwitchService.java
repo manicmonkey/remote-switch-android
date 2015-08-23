@@ -15,21 +15,21 @@ import retrofit.http.Path;
  * @author James Baxter 2015-08-10.
  */
 public interface SwitchService {
-    @POST("/switches")
+    @POST("/")
     Response create(@Body Switch newSwitch);
 
-    @GET("/switches")
+    @GET("/")
     List<Switch> get();
 
-    @GET("/switches/{name}")
+    @GET("/{name}")
     Switch get(@Path("name") String name);
 
-    @PUT("/switches/{name}")
+    @PUT("/{name}")
     Response update(@Path("name") String name, @Body Switch existingSwitch);
 
-    @DELETE("/switches/{name}")
+    @DELETE("/{name}")
     Response delete(@Path("name") String name);
 
-    @PATCH("/switches/{name}")
+    @PATCH("/{name}")
     Response execute(@Path("name") String name, @Body SwitchAction switchAction);
 }
