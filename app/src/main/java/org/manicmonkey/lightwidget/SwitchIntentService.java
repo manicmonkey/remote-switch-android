@@ -11,6 +11,10 @@ import org.manicmonkey.lightwidget.backend.SwitchAction;
 import org.manicmonkey.lightwidget.backend.SwitchService;
 import org.manicmonkey.lightwidget.backend.SwitchServiceFactory;
 
+import java.io.IOException;
+
+import retrofit.RetrofitError;
+
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
  * a service on a separate handler thread.
@@ -89,12 +93,17 @@ public class SwitchIntentService extends IntentService {
             return;
         }
 
-        switchService.execute(switchName, new SwitchAction(switchOn));
+        try {
+            switchService.execute(switchName, new SwitchAction(switchOn));
 
-        if (switchOn) {
-            showToast(R.string.switched_on);
-        } else {
-            showToast(R.string.switched_off);
+            if (switchOn) {
+                showToast(R.string.switched_on);
+            } else {
+                showToast(R.string.switched_off);
+            }
+        } catch (RetrofitError e) {
+            showToast(R.string.switch_error);
+            Log.e(getClass().getSimpleName(), "Error performing switch operation", e);
         }
     }
 
