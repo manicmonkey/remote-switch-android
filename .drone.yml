@@ -3,4 +3,5 @@ build:
   commands:
     - pwd
     - ls -lh
+    - chmod +x gradlew
     - ./gradlew build
