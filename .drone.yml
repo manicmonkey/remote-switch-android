@@ -1,5 +1,6 @@
 build:
-  image: ubuntu:15.10
+  image: manicmonkey/android-build
   commands:
     - pwd
-    - tree /drone/src
+    - ll
+    - ./gradlew build
