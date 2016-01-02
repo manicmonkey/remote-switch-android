@@ -2,5 +2,5 @@ build:
   image: manicmonkey/android-build
   commands:
     - pwd
-    - ll
+    - ls -lh
     - ./gradlew build
