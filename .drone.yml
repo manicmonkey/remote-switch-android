@@ -1,0 +1,5 @@
+build:
+  image: ubuntu:15.10
+  commands:
+    - pwd
+    - tree /drone/src
