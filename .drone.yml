@@ -1,5 +1,9 @@
 build:
   image: manicmonkey/android-build
+  mount:
+    - gradle
+  environment:
+    - GRADLE_USER_HOME=/drone/gradle
   commands:
     - pwd
     - ls -lh
