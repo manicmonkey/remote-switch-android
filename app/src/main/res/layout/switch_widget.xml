@@ -1,15 +1,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/widget_margin">
+    android:gravity="center">
 
     <ImageButton android:id="@+id/appwidget_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
         android:src="@drawable/pocket_lantern_orange_100"
         android:layout_margin="8dp"
-        android:background="@android:color/transparent" />
+        android:padding="10dp"
+        android:background="@drawable/switch_widget" />
+
+    <TextView
+        android:id="@+id/appwidget_button_text"
+        android:layout_below="@id/appwidget_button"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Switch 1"
+        android:textSize="12dp"
+        android:textStyle="bold"/>
 
 </RelativeLayout>

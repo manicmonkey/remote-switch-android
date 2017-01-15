@@ -5,6 +5,8 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import org.manicmonkey.lightwidget.R;
@@ -48,6 +50,12 @@ public class SwitchWidget extends AppWidgetProvider {
 
         SwitchWidgetConfiguration switchWidgetConfiguration = new SwitchWidgetConfiguration(context, appWidgetId);
         String name = switchWidgetConfiguration.getString(SwitchWidgetConfiguration.PREF_NAME);
+
+        if (name == null) {
+            Log.d(SwitchWidget.class.getSimpleName(), "Name not found - maybe not configured yet");
+            return;
+        }
+
         boolean switchOn = switchWidgetConfiguration.getBoolean(SwitchWidgetConfiguration.PREF_SWITCH_ON);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.switch_widget);
@@ -59,7 +67,13 @@ public class SwitchWidget extends AppWidgetProvider {
             views.setImageViewResource(R.id.appwidget_button, R.drawable.pocket_lantern_gray_100);
             intent.setAction(SwitchIntentService.ACTION_SWITCH_OFF);
         }
+
+        views.setTextViewText(R.id.appwidget_button_text, name);
+
         intent.putExtra(SwitchIntentService.EXTRA_SWITCH, name);
+        Log.d(SwitchWidget.class.getSimpleName(), "Operating on switch: " + name);
+        //this is needed to distinguish between widgets otherwise they all fire the same intent
+        intent.setData(Uri.withAppendedPath(Uri.parse("switch://widget/id"), String.valueOf(appWidgetId)));
         PendingIntent pendingIntent = PendingIntent.getService(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.appwidget_button, pendingIntent);
 

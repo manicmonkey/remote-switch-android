@@ -4,6 +4,6 @@
 
     <header
         android:fragment="org.manicmonkey.lightwidget.SettingsActivity$ServerPreferenceFragment"
-        android:title="@string/pref_header_server" />
+        android:title="@string/pref_header_servers" />
 
 </preference-headers>

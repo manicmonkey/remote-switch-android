@@ -26,6 +26,7 @@ public class SwitchServiceFactory {
             @Override
             public void intercept(RequestFacade request) {
                 request.addHeader("Accept", "application/json");
+                request.addHeader("Authorization", "Basic YWRtaW46cGFzc3dvcmQ=");
             }
         };
 

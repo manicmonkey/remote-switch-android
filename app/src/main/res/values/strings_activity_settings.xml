@@ -2,7 +2,7 @@
 
     <!-- Strings related to Settings -->
     <string name="pref_header_general">General</string>
-    <string name="pref_header_server">Server</string>
-    <string name="pref_default_value">http://localhost/switches/api</string>
+    <string name="pref_header_servers">Servers</string>
+    <string name="pref_default_value">http://localhost/api</string>
 
 </resources>
