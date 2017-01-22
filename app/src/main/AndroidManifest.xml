@@ -18,17 +18,27 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".widget.SwitchWidget">
+        <receiver android:name=".widget.SwitchWidgetSingle">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/switch_on_widget_info" />
+                android:resource="@xml/switch_widget_single_info" />
         </receiver>
 
-        <activity android:name=".widget.SwitchWidgetConfigureActivity">
+        <receiver android:name=".widget.SwitchWidgetMultiple">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/switch_widget_multiple_info" />
+        </receiver>
+
+        <activity android:name=".widget.SwitchWidgetSingleConfigureActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
@@ -38,6 +48,9 @@
             android:name=".SwitchIntentService"
             android:exported="false">
         </service>
+
+        <service android:name=".widget.SwitchWidgetMultipleService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
     </application>
 

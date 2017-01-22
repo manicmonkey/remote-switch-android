@@ -3,23 +3,24 @@
     android:layout_height="match_parent"
     android:gravity="center">
 
-    <ImageButton android:id="@+id/appwidget_button"
+    <ImageButton
+        android:id="@+id/appwidget_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:src="@drawable/pocket_lantern_orange_100"
         android:layout_margin="8dp"
+        android:background="@drawable/switch_widget"
         android:padding="10dp"
-        android:background="@drawable/switch_widget" />
+        android:src="@drawable/pocket_lantern_orange_100" />
 
     <TextView
         android:id="@+id/appwidget_button_text"
-        android:layout_below="@id/appwidget_button"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/appwidget_button"
+        android:layout_centerInParent="true"
         android:text="Switch 1"
         android:textSize="12dp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
 </RelativeLayout>

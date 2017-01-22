@@ -14,9 +14,9 @@ import org.manicmonkey.lightwidget.SwitchIntentService;
 
 /**
  * Implementation of App Widget functionality.
- * App Widget Configuration implemented in {@link SwitchWidgetConfigureActivity SwitchWidgetConfigureActivity}
+ * App Widget Configuration implemented in {@link SwitchWidgetSingleConfigureActivity SwitchWidgetSingleConfigureActivity}
  */
-public class SwitchWidget extends AppWidgetProvider {
+public class SwitchWidgetSingle extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -30,9 +30,9 @@ public class SwitchWidget extends AppWidgetProvider {
     public void onDeleted(Context context, int[] appWidgetIds) {
         // When the user deletes the widget, delete the preference associated with it.
         for (int appWidgetId : appWidgetIds) {
-            SwitchWidgetConfiguration switchWidgetConfiguration = new SwitchWidgetConfiguration(context, appWidgetId);
-            switchWidgetConfiguration.delete(SwitchWidgetConfiguration.PREF_NAME);
-            switchWidgetConfiguration.delete(SwitchWidgetConfiguration.PREF_SWITCH_ON);
+            SwitchWidgetSingleConfiguration switchWidgetConfiguration = new SwitchWidgetSingleConfiguration(context, appWidgetId);
+            switchWidgetConfiguration.delete(SwitchWidgetSingleConfiguration.PREF_NAME);
+            switchWidgetConfiguration.delete(SwitchWidgetSingleConfiguration.PREF_SWITCH_ON);
         }
     }
 
@@ -48,18 +48,18 @@ public class SwitchWidget extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
 
-        SwitchWidgetConfiguration switchWidgetConfiguration = new SwitchWidgetConfiguration(context, appWidgetId);
-        String name = switchWidgetConfiguration.getString(SwitchWidgetConfiguration.PREF_NAME);
+        final SwitchWidgetSingleConfiguration switchWidgetConfiguration = new SwitchWidgetSingleConfiguration(context, appWidgetId);
+        final String name = switchWidgetConfiguration.getString(SwitchWidgetSingleConfiguration.PREF_NAME);
 
         if (name == null) {
-            Log.d(SwitchWidget.class.getSimpleName(), "Name not found - maybe not configured yet");
+            Log.d(SwitchWidgetSingle.class.getSimpleName(), "Name not found - maybe not configured yet");
             return;
         }
 
-        boolean switchOn = switchWidgetConfiguration.getBoolean(SwitchWidgetConfiguration.PREF_SWITCH_ON);
+        final boolean switchOn = switchWidgetConfiguration.getBoolean(SwitchWidgetSingleConfiguration.PREF_SWITCH_ON);
         // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.switch_widget);
-        Intent intent = new Intent(context, SwitchIntentService.class);
+        final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.switch_widget_single);
+        final Intent intent = new Intent(context, SwitchIntentService.class);
         if (switchOn) {
             views.setImageViewResource(R.id.appwidget_button, R.drawable.pocket_lantern_orange_100);
             intent.setAction(SwitchIntentService.ACTION_SWITCH_ON);
@@ -71,10 +71,10 @@ public class SwitchWidget extends AppWidgetProvider {
         views.setTextViewText(R.id.appwidget_button_text, name);
 
         intent.putExtra(SwitchIntentService.EXTRA_SWITCH, name);
-        Log.d(SwitchWidget.class.getSimpleName(), "Operating on switch: " + name);
+        Log.d(SwitchWidgetSingle.class.getSimpleName(), "Operating on switch: " + name);
         //this is needed to distinguish between widgets otherwise they all fire the same intent
         intent.setData(Uri.withAppendedPath(Uri.parse("switch://widget/id"), String.valueOf(appWidgetId)));
-        PendingIntent pendingIntent = PendingIntent.getService(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        final PendingIntent pendingIntent = PendingIntent.getService(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.appwidget_button, pendingIntent);
 
         // Instruct the widget manager to update the widget

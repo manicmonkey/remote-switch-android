@@ -8,18 +8,18 @@ import android.util.Log;
 /**
  * @author James Baxter 2015-08-15.
  */
-public class SwitchWidgetConfiguration {
+public class SwitchWidgetSingleConfiguration {
 
     public static final String PREF_NAME = "NAME";
     public static final String PREF_SWITCH_ON = "SWITCH_ON";
 
-    private static final String PREFS_NAME = "org.manicmonkey.lightwidget.widget.SwitchWidget";
+    private static final String PREFS_NAME = "org.manicmonkey.lightwidget.widget.SwitchWidgetSingle";
     private static final String PREF_PREFIX_KEY = "appwidget_";
 
     private final Context context;
     private final int appWidgetId;
 
-    public SwitchWidgetConfiguration(Context context, int appWidgetId) {
+    public SwitchWidgetSingleConfiguration(Context context, int appWidgetId) {
         this.context = context;
         this.appWidgetId = appWidgetId;
     }

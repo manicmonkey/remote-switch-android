@@ -20,15 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The configuration screen for the {@link SwitchWidget SwitchWidget} AppWidget.
+ * The configuration screen for the {@link SwitchWidgetSingle SwitchWidgetSingle} AppWidget.
  */
-public class SwitchWidgetConfigureActivity extends Activity {
+public class SwitchWidgetSingleConfigureActivity extends Activity {
 
     private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     private Spinner nameSpinner;
     private Spinner onOffSpinner;
 
-    public SwitchWidgetConfigureActivity() {
+    public SwitchWidgetSingleConfigureActivity() {
         super();
     }
 
@@ -44,7 +44,7 @@ public class SwitchWidgetConfigureActivity extends Activity {
         setupNameSpinner();
         setupOnOffSpinner();
 
-        findViewById(R.id.add_button).setOnClickListener(mOnClickListener);
+        findViewById(R.id.btn_add).setOnClickListener(mOnClickListener);
 
         // Find the widget id from the intent.
         Intent intent = getIntent();
@@ -71,7 +71,7 @@ public class SwitchWidgetConfigureActivity extends Activity {
     }
 
     private void setupNameSpinner() {
-        nameSpinner = (Spinner) findViewById(R.id.switch_name_spinner);
+        nameSpinner = (Spinner) findViewById(R.id.spn_switch_name);
         final ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
         //todo if not names, tell user why and quit
         new AsyncTask<Void, Void, List<String>>() {
@@ -90,7 +90,7 @@ public class SwitchWidgetConfigureActivity extends Activity {
     }
 
     private void setupOnOffSpinner() {
-        onOffSpinner = (Spinner) findViewById(R.id.switch_on_off_spinner);
+        onOffSpinner = (Spinner) findViewById(R.id.spn_switch_on_off);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.switch_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         onOffSpinner.setAdapter(adapter);
@@ -98,22 +98,22 @@ public class SwitchWidgetConfigureActivity extends Activity {
 
     View.OnClickListener mOnClickListener = new View.OnClickListener() {
         public void onClick(View v) {
-            final Context context = SwitchWidgetConfigureActivity.this;
+            final Context context = SwitchWidgetSingleConfigureActivity.this;
 
-            final SwitchWidgetConfiguration switchWidgetConfiguration = new SwitchWidgetConfiguration(context, mAppWidgetId);
+            final SwitchWidgetSingleConfiguration switchWidgetConfiguration = new SwitchWidgetSingleConfiguration(context, mAppWidgetId);
 
             // When the button is clicked, store the configuration
             String name = nameSpinner.getSelectedItem().toString();
             Log.d(getClass().getSimpleName(), "Got name: " + name);
-            switchWidgetConfiguration.save(SwitchWidgetConfiguration.PREF_NAME, name);
+            switchWidgetConfiguration.save(SwitchWidgetSingleConfiguration.PREF_NAME, name);
 
             String onOff = onOffSpinner.getSelectedItem().toString();
             Log.d(getClass().getSimpleName(), "Got onOff: " + onOff);
-            switchWidgetConfiguration.save(SwitchWidgetConfiguration.PREF_SWITCH_ON, onOff.equals("On"));
+            switchWidgetConfiguration.save(SwitchWidgetSingleConfiguration.PREF_SWITCH_ON, onOff.equals("On"));
 
             // It is the responsibility of the configuration activity to update the app widget
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            SwitchWidget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
+            SwitchWidgetSingle.updateAppWidget(context, appWidgetManager, mAppWidgetId);
 
             // Make sure we pass back the original appWidgetId
             Intent resultValue = new Intent();
