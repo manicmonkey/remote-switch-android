@@ -52,6 +52,9 @@
         <service android:name=".widget.SwitchWidgetMultipleService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="ccace6ab3300c626f2bccaf071cc83e27e94f26a" />
     </application>
 
 </manifest>

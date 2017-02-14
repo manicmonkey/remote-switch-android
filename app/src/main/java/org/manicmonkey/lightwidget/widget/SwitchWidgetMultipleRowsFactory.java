@@ -6,6 +6,8 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.crashlytics.android.Crashlytics;
+
 import org.manicmonkey.lightwidget.R;
 import org.manicmonkey.lightwidget.SwitchIntentService;
 import org.manicmonkey.lightwidget.backend.Switch;
@@ -14,6 +16,8 @@ import org.manicmonkey.lightwidget.backend.SwitchServiceFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * @author James - 2017-01-22.
@@ -25,6 +29,7 @@ public class SwitchWidgetMultipleRowsFactory implements RemoteViewsService.Remot
 
     public SwitchWidgetMultipleRowsFactory(Context context, Intent intent) {
         this.context = context;
+        Fabric.with(context, new Crashlytics());
     }
 
     @Override
