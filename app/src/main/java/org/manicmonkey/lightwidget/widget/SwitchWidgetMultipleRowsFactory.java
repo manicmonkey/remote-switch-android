@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
+import retrofit.RetrofitError;
 
 /**
  * @author James - 2017-01-22.
@@ -39,8 +40,16 @@ public class SwitchWidgetMultipleRowsFactory implements RemoteViewsService.Remot
     @Override
     public void onDataSetChanged() {
         final SwitchService switchService = SwitchServiceFactory.getSwitchService(context);
-        List<String> switchNames = new ArrayList<>();
-        for (Switch aSwitch : switchService.get()) {
+        final List<String> switchNames = new ArrayList<>();
+        List<Switch> switches;
+        try {
+            switches = switchService.get();
+        } catch (RetrofitError e) {
+            switches = new ArrayList<>();
+            Log.d(SwitchWidgetMultipleRowsFactory.class.getSimpleName(),
+                    "Error loading switches", e);
+        }
+        for (Switch aSwitch : switches) {
             switchNames.add(aSwitch.getName());
         }
         this.switchNames = switchNames;
